@@ -11,7 +11,7 @@ import (
 	"github.com/ethereum/go-ethereum/crypto"
 )
 
-// Transfer privateKey: e788e315941db0d191c1ecc31ef7cbc7aab42b47ac06688c49978fe7b9ece3d4
+// Transfer privateKey: fad9c8855b740a0b7ed4c221dbad0f33a83a49cad6b3fe8d5817ac83d38b6a19
 // to: 0x71c7656ec7ab88b098defb751b7401b5f6d8976f
 func (c *Client) Transfer(ctx context.Context, privateKeyBytes, toAddr string) error {
 	privateKey, err := crypto.HexToECDSA(privateKeyBytes)
