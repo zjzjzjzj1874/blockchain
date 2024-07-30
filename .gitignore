@@ -1,3 +1,8 @@
 .idea
 
 .donotadd
+
+/geth/tmp
+
+/geth/a_client_test.go
+/geth/b_client_test.go

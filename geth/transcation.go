@@ -2,6 +2,7 @@ package geth
 
 import (
 	"context"
+	"fmt"
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/common"
@@ -38,4 +39,39 @@ func (c *Client) TransactionCount(ctx context.Context, blockHash common.Hash) (i
 	}
 
 	return int64(count), nil
+}
+
+// TransactionIterateTx 遍历交易事务
+func (c *Client) TransactionIterateTx(ctx context.Context, blockNumber int64) error {
+	block, err := c.Client.BlockByNumber(ctx, big.NewInt(blockNumber))
+	if err != nil {
+		return err
+	}
+
+	for idx, tx := range block.Transactions() {
+		if idx > 20 {
+			break
+		}
+		fmt.Println("hash: ", tx.Hash().Hex())
+		fmt.Println("value: ", tx.Value().String())
+		fmt.Println("gas: ", tx.Gas())
+		fmt.Println("gas price: ", tx.GasPrice().String())
+		fmt.Println("Nonce: ", tx.Nonce())
+		fmt.Println("data: ", string(tx.Data()))
+		fmt.Println("to: ", tx.To().Hex())
+
+		chainId, err := c.Client.NetworkID(ctx)
+		if err != nil {
+			return err
+		}
+		fmt.Println("chainId: ", chainId.String())
+		receipt, err := c.Client.TransactionReceipt(ctx, tx.Hash())
+		if err != nil {
+			return err
+		}
+
+		fmt.Println("receipt status: ", receipt.Status) // 1
+	}
+
+	return nil
 }

@@ -16,22 +16,30 @@ var (
 
 func TestClient_Balance(t *testing.T) {
 	t.Run("#CLIENT", func(t *testing.T) {
-		//0x71c7656ec7ab88b098defb751b7401b5f6d8976f => 自己的小狐狸钱包账号
-		//0x88b4B3cF8bb8EE4defB5535e2De512c52e7BA5F0 => 官方Demo测试用账号
 
 		// 获取账户余额
-		//client.BalanceByAccount("0x71c7656ec7ab88b098defb751b7401b5f6d8976f")
-		ba, err := client.BalanceByAccount("0x55fE59D8Ad77035154dDd0AD0388D09Dd4047A8e")
+		ba, err := client.BalanceByAccount("0x71c7656ec7ab88b098defb751b7401b5f6d8976f")
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Println(ba.String())
+		fmt.Println("balance: ", ba.String())
 
 		// 获取区块余额
-		fmt.Println(client.BalanceInBlock("0x71c7656ec7ab88b098defb751b7401b5f6d8976f", 5532993))
+		//fmt.Sprintf("区块余额: %v, err: %v", client.BalanceInBlock("0x71c7656ec7ab88b098defb751b7401b5f6d8976f", 5532993))
 
 		// 获取待处理余额
-		fmt.Println(client.PendingBalanceAt("0x71c7656ec7ab88b098defb751b7401b5f6d8976f"))
+		//fmt.Println("待处理余额： ", client.PendingBalanceAt("0x71c7656ec7ab88b098defb751b7401b5f6d8976f"))
+	})
+}
+
+// 转账
+func TestClient_Transfer(t *testing.T) {
+	t.Run("#Transfer", func(t *testing.T) {
+		// 获取账户余额
+		err := client.Transfer(ctx, "fad9c8855b740a0b7ed4c221dbad0f33a83a49cad6b3fe8d5817ac83d38b6a19", "0x71c7656ec7ab88b098defb751b7401b5f6d8976f")
+		if err != nil {
+			log.Fatal(err)
+		}
 	})
 }
 
@@ -65,5 +73,34 @@ func TestClient_Block(t *testing.T) {
 		}
 
 		fmt.Println("Count =", count)
+	})
+	t.Run("#TX", func(t *testing.T) {
+		err = client.TransactionIterateTx(ctx, 5671744)
+		if err != nil {
+			log.Fatal()
+		}
+	})
+}
+
+// 创建钱包
+func TestClient_GenWallet(t *testing.T) {
+	t.Run("#GenWallet", func(t *testing.T) {
+		err := GenWallet()
+		if err != nil {
+			log.Fatal(err)
+		}
+	})
+}
+
+// 创建KeyStore
+func TestClient_KeyStore(t *testing.T) {
+	t.Run("#KeyStore", func(t *testing.T) {
+		//err := CreateKs()
+		file := "./tmp/UTC--2024-07-30T07-20-47.679277000Z--85c0a461989069b3e3c524dcfbb9cf84f1150bb1"
+		pwd := "secret"
+		err := ImportKs(file, pwd)
+		if err != nil {
+			log.Fatal(err)
+		}
 	})
 }

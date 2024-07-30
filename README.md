@@ -61,11 +61,12 @@ blockchain literacy
 
 * AMM（Automated Market Makers）
 
-自动做市商，模型源于Vitalik于2017年发表的[博客]()，讨论了“恒定乘机公式”，即每一个Uniswap Pair 中存有两种资产，并为这两种资产提供流动性。
+自动做市商，模型源于Vitalik于2017年发表的[博客]()，讨论了“恒定乘积公式”，即每一个Uniswap Pair 中存有两种资产，并为这两种资产提供流动性。
 
 * swap函数
 
-可以看到，如下图要从A点移动到B点,通过调用Uniswap的swap函数，需要先转账给pair合约一定数量X1-X0)的tokenB，然后pair合约将对应数量的tokenA转账出去到目标地址。则转装出去的tokenA的数量为(Y0-Y1), 在忽略手续费的情况下，此时的B点应该要落在曲线上。
+可以看到，如下图要从A点移动到B点,通过调用Uniswap的swap函数，需要先转账给pair合约一定数量X1-X0)的tokenB，然后pair合约将对应数量的tokenA转账出去到目标地址。
+则转出去的tokenA的数量为(Y0-Y1), 在忽略手续费的情况下，此时的B点应该要落在曲线上。
 ![img.png](img.png)
 
 * Mint函数：铸币函数
@@ -73,7 +74,7 @@ blockchain literacy
 ![img_1.png](img_1.png)
 Burn函数：Mint函数的逆向，先向Pair合约中，转账一定量的LP token，然后通过Pair合约向外转账tokenA, tokenB. 使得上图中的B点回落到A点。
 
-* 数值精
+* 数值精度
 
 由于solidity中并不原生支持小数，Uniswap采用UQ112.112这种编码方式来存储价格信息。UQ112.112意味着该数值采取224位来编码值，前112位存放小数点前的值，其范围是[0, 2^112-1]
 ,后112位存放小数点后的值，其精度可以达到1/^112.
